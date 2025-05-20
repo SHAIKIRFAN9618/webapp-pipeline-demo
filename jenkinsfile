@@ -1,0 +1,31 @@
+@Library('my-shared-lib') _  // Your Jenkins Shared Library name
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                buildProject()  // Defined in vars/buildProject.groovy
+            }
+        }
+
+        stage('Code Review') {
+            steps {
+                sonarScan()     // Defined in vars/sonarScan.groovy
+            }
+        }
+
+        stage('Publish to Nexus') {
+            steps {
+                uploadToNexus()  // Defined in vars/uploadToNexus.groovy
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                deployToTomcat()  // Defined in vars/deployToTomcat.groovy
+            }
+        }
+    }
+}
